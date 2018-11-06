@@ -153,4 +153,6 @@ def diccionarios_ruta_min(graph_proj):
 
 
 graph_proj = genera_red()
-nx.write_graphml(graph_proj, "test.graphml")
+w = nx.write_gpickle(graph_proj,"test.gpickle")
+G = nx.read_gpickle("test.gpickle")
+print()
