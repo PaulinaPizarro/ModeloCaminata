@@ -10,6 +10,8 @@ import pandas as pd
 
 import math
 
+from operator import itemgetter
+
 class Manzana:
     def __init__(self, id, lat, long, gen, atrac, pob, sub, dens):
         self.id = id
@@ -60,7 +62,14 @@ def instanciar_nodos(graph_proj):
                 lat = v[1]
         nodo = Nodo(id, lat, long, x, y, 0, 0, [manzana0, manzana0, manzana0, manzana0])
         lista_nodos.append(nodo)
+    lista_nodos.sort(key=itemgetter("id"))
+    i = 1
+    for nodo in lista_nodos:
+    	nodo.id = i
+    	i += 1
     return(lista_nodos)
+
+
 
 def instanciar_manzanas(archivo):
     archivo_manzanas = open(archivo + ".csv", "r")
