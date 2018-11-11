@@ -152,7 +152,14 @@ def diccionarios_ruta_min(graph_proj):
 
 
 
-graph_proj = genera_red()
-w = nx.write_gpickle(graph_proj,"test.gpickle")
 G = nx.read_gpickle("test.gpickle")
-print()
+
+ruta, distancia = diccionarios_ruta_min(G)
+
+
+for i in G.get_edge_data(1597308934, 1597308938):
+    print(i)
+
+print(type(ruta))
+1597308934
+1597308938
