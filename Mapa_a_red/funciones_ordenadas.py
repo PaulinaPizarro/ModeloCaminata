@@ -63,10 +63,10 @@ def instanciar_nodos(graph_proj):
         nodo = Nodo(id, lat, long, x, y, 0, 0, [manzana0, manzana0, manzana0, manzana0])
         lista_nodos.append(nodo)
     lista_nodos.sort(key=itemgetter("id"))
-    i = 1
-    for nodo in lista_nodos:
-    	nodo.id = i
-    	i += 1
+    #i = 1
+    #for nodo in lista_nodos:
+    #	nodo.id = i
+    #	i += 1
     return(lista_nodos)
 
 
@@ -102,28 +102,42 @@ def calcular_distancia(punto1, punto2):
     distancia = math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
     return distancia
 
-def ordenar_diccionario(dicc):
+def ordenar_diccionario1(dicc):
     matriz = []
     for i in dicc:
-        origin = i[0]
+        origen = i[0]
         dict = i[1]
         list = []
-        for key, value in dict.items():
-            temp = [key, value]
+        for destino, distancia in dict.items():
+            temp = [destino, distancia]
             list.append(temp)
         list.sort(key=lambda x: x[0])
-        matriz.append([origin, list])
+        matriz.append([origen, list])
     matriz.sort(key=lambda x: x[0])
     return (matriz)
 
-def diccionario_a_txt(matriz, nombre):
+
+def ordenar_diccionario2(dicc):
+    matriz = []
+    for key, value in dicc.items():
+        origen = key
+        list = []
+        for destino, ruta in value.items():
+            temp = [destino, ruta]
+            list.append(temp)
+        list.sort(key=lambda x: x[0])
+        matriz.append([origen, list])
+    matriz.sort(key=lambda x: x[0])
+    return (matriz)
+
+
+def matriz_a_txt(matriz, nombre):
     new_matriz = []
     for i in matriz:
         lista = []
         for j in i[1]:
             lista.append(j[1])
         new_matriz.append(lista)
-
     with open(nombre + '.txt', 'w') as f:
         for item in new_matriz:
             f.write("%s\n" % item)
@@ -151,10 +165,22 @@ def diccionarios_ruta_min(graph_proj):
     return ruta, distancia
 
 
+def cargar_arcos(grafo, lista_secuencia, flujo):
+    grafo.add_path(lista_secuencia)
+    i = 0
+    while i < len(lista_secuencia)-1:
+        grafo[lista_secuencia[i]][lista_secuencia[i+1]]['weight'] = flujo
+        i += 1
+
+
+
+
 
 G = nx.read_gpickle("test.gpickle")
 
 ruta, distancia = diccionarios_ruta_min(G)
+
+
 
 
 for i in G.get_edge_data(1597308934, 1597308938):
